@@ -10,5 +10,4 @@ public class Term
         this.coefficient = coefficient;
         this.exponent = exponent;
     }
-
 }
