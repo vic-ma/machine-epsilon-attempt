@@ -11,9 +11,19 @@ public class Fraction
         this.denominator = denominator;
     }
 
+    public int getNumerator()
+    {
+        return this.numerator;
+    }
+
+    public int getDenominator()
+    {
+        return this.denominator;
+    }
+
     public void simplify()
     {
-        gcf = greatestCommonFactor(this.numerator, this.denominator);
+        int gcf = greatestCommonFactor(this.numerator, this.denominator);
         this.numerator /= gcf;
         this.denominator /= gcf;
     }
@@ -25,6 +35,11 @@ public class Fraction
 
     public static Fraction sum(Fraction f1, Fraction f2)
     {
+        int numerator = f1.getNumerator() * f2.getDenominator()
+                    + f2.getNumerator() * f1.getDenominator();
+        int denominator = f1.getDenominator() * f2.getDenominator();
+        Fraction sum = new Fraction(numerator, denominator);
+        sum.simplify();
+        return sum;
     }
-
 }
