@@ -19,7 +19,7 @@ public class Term
 
     public static Term sum(Term t1, Term t2)
     {
-        Fraction coefficient = Fraction.sum(t1.getCoefficient(), t2.getCoefficient());
+        Fraction coefficient = Fraction.add(t1.getCoefficient(), t2.getCoefficient());
         return new Term(coefficient, t1.getExponent());
     }
 
