@@ -9,6 +9,7 @@ public class Fraction
     {
         this.numerator = numerator;
         this.denominator = denominator;
+        this.simplify();
     }
 
     public int getNumerator()
