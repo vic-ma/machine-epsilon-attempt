@@ -1,6 +1,6 @@
 package machineepsilon;
 
-public class Term
+public class Term implements Comparable<Term>
 {
     private Fraction coefficient;
     private Fraction exponent;
@@ -11,10 +11,22 @@ public class Term
         this.exponent = exponent;
     }
 
+    public Term(Fraction coefficient, int exponent)
+    {
+        this.coefficient = coefficient;
+        this.exponent = new Fraction(exponent);
+    }
+
+    public Term(int coefficient, Fraction exponent)
+    {
+        this.coefficient = new Fraction(coefficient);
+        this.exponent = exponent;
+    }
+
     public Term(int coefficient, int exponent)
     {
-        this.coefficient = new Fraction(coefficient, 1);
-        this.exponent = new Fraction(exponent, 1);
+        this.coefficient = new Fraction(coefficient);
+        this.exponent = new Fraction(exponent);
     }
 
     public Fraction getCoefficient()
@@ -36,6 +48,29 @@ public class Term
     {
         this.coefficient.simplify();
         this.exponent.simplify();
+    }
+
+    public int compareTo(Term term)
+    {
+        int exponentCompare = this.exponent.compareTo(term.getExponent());
+        if (exponentCompare < 0)
+        {
+            return -1;
+        }
+        else if (exponentCompare > 0)
+        {
+            return 1;
+        }
+        int coefficientCompare = this.coefficient.compareTo(term.getCoefficient());
+        if (coefficientCompare < 0)
+        {
+            return -1;
+        }
+        else if (coefficientCompare > 0)
+        {
+            return 1;
+        }
+        return 0;
     }
 
     public static Term add(Term t1, Term t2)
