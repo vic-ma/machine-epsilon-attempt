@@ -61,6 +61,7 @@ public class Term implements Comparable<Term>
         {
             return 1;
         }
+
         int coefficientCompare = this.coefficient.compareTo(term.getCoefficient());
         if (coefficientCompare < 0)
         {
@@ -70,6 +71,7 @@ public class Term implements Comparable<Term>
         {
             return 1;
         }
+
         return 0;
     }
 
