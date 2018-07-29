@@ -1,6 +1,6 @@
 package machineepsilon;
 
-public class Fraction
+public class Fraction implements Comparable<Fraction>
 {
     private int numerator;
     private int denominator;
@@ -37,6 +37,43 @@ public class Fraction
     public static int greatestCommonFactor(int a, int b)
     {
         return b==0 ? a : greatestCommonFactor(b, a%b);
+    }
+
+    public int compareTo(Fraction frac)
+    {
+        Fraction difference = Fraction.subtract(this, frac);
+        if (this.numerator > 0)
+        {
+            if (frac.getNumerator() < 0)
+            {
+                return -1;
+            }
+            if (difference.getNumerator() < 0)
+            {
+                return 1;
+            }
+            else if (difference.getNumerator() > 0)
+            {
+                return -1;
+            }
+            return 0;
+        }
+        else
+        {
+            if (frac.getNumerator() > 0)
+            {
+                return 1;
+            }
+            if (difference.getNumerator() > 0)
+            {
+                return 1;
+            }
+            else if (difference.getNumerator() < 0)
+            {
+                return -1;
+            }
+            return 0;
+        }
     }
 
     public static Fraction add(Fraction f1, Fraction f2)
