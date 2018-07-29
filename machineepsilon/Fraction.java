@@ -12,6 +12,12 @@ public class Fraction implements Comparable<Fraction>
         this.simplify();
     }
 
+    public Fraction(int numerator)
+    {
+        this.numerator = numerator;
+        this.denominator = 1;
+    }
+
     public int getNumerator()
     {
         return this.numerator;
@@ -66,11 +72,11 @@ public class Fraction implements Comparable<Fraction>
             }
             if (difference.getNumerator() > 0)
             {
-                return 1;
+                return -1;
             }
             else if (difference.getNumerator() < 0)
             {
-                return -1;
+                return 1;
             }
             return 0;
         }
