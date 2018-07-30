@@ -16,6 +16,24 @@ public class Fraction implements Comparable<Fraction>
     {
         this.numerator = numerator;
         this.denominator = 1;
+        this.simplify();
+    }
+
+    public Fraction(String fraction)
+    {
+        boolean positive = (fraction.charAt(0) == '-' ? false : true);
+
+        if (fraction.indexOf('/') != -1)
+        {
+            this.numerator = Integer.valueOf(fraction.substring(0, fraction.indexOf('/')));
+            this.denominator = Integer.valueOf(fraction.substring(fraction.indexOf('/')+1));
+        }
+        else
+        {
+            this.numerator = Integer.valueOf(fraction);
+            this.denominator = 1;
+        }
+        this.simplify();
     }
 
     public int getNumerator()
@@ -30,6 +48,14 @@ public class Fraction implements Comparable<Fraction>
 
     public String toString()
     {
+        if (this.numerator == 0)
+        {
+            return "0";
+        }
+        else if (this.denominator == 1)
+        {
+            return String.valueOf(this.numerator);
+        }
         return String.valueOf(this.numerator) + "/" + String.valueOf(this.denominator);
     }
 
@@ -114,5 +140,9 @@ public class Fraction implements Comparable<Fraction>
     public static Fraction divide(Fraction f1, Fraction f2)
     {
         return multiply(f1, new Fraction(f2.getDenominator(), f2.getNumerator()));
+    }
+
+    public static void main(String args[])
+    {
     }
 }
