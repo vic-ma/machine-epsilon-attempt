@@ -41,7 +41,39 @@ public class Term implements Comparable<Term>
 
     public String toString()
     {
-        return "(" + this.coefficient + ")x^(" + this.exponent + ")";
+        String coefficient = this.coefficient.toString();
+        String exponent = this.exponent.toString();
+        if (coefficient.equals("0"))
+        {
+            return "";
+        }
+        else if (exponent.equals("0"))
+        {
+            return coefficient;
+        }
+        else if (exponent.equals("1"))
+        {
+            if (coefficient.equals("1"))
+            {
+                return "x";
+            }
+            return coefficient + "x";
+        }
+
+        if (coefficient.indexOf('/') != -1)
+        {
+            coefficient = "(" + coefficient + ")";
+        }
+        if (exponent.indexOf('/') != -1 || exponent.indexOf('-') != -1)
+        {
+            exponent = "(" + exponent + ")";
+        }
+
+        if (coefficient.equals("1"))
+        {
+            return "x^" + exponent;
+        }
+        return coefficient + "x^" + exponent;
     }
 
     public void simplify()
@@ -99,5 +131,10 @@ public class Term implements Comparable<Term>
         Fraction coefficient = Fraction.divide(t1.getCoefficient(), t2.getCoefficient());
         Fraction exponent = Fraction.subtract(t1.getExponent(), t2.getExponent());
         return new Term(coefficient, exponent);
+    }
+    public static void main(String args[])
+    {
+        Term t = new Term(new Fraction(-2,3), new Fraction(-4));
+        System.out.println(t);
     }
 }
