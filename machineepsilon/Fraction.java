@@ -60,6 +60,11 @@ public class Fraction implements Comparable<Fraction>
         int gcf = greatestCommonFactor(this.numerator, this.denominator);
         this.numerator /= gcf;
         this.denominator /= gcf;
+        if (this.denominator < 0)
+        {
+            this.numerator *= -1;
+            this.denominator *= -1;
+        }
     }
 
     public static int greatestCommonFactor(int a, int b)
