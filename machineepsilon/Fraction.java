@@ -49,13 +49,9 @@ public class Fraction implements Comparable<Fraction>
     public String toString()
     {
         if (this.numerator == 0)
-        {
             return "0";
-        }
         else if (this.denominator == 1)
-        {
             return String.valueOf(this.numerator);
-        }
         return String.valueOf(this.numerator) + "/" + String.valueOf(this.denominator);
     }
 
@@ -77,33 +73,21 @@ public class Fraction implements Comparable<Fraction>
         if (this.numerator > 0)
         {
             if (frac.getNumerator() < 0)
-            {
                 return -1;
-            }
             if (difference.getNumerator() < 0)
-            {
                 return 1;
-            }
             else if (difference.getNumerator() > 0)
-            {
                 return -1;
-            }
             return 0;
         }
         else
         {
             if (frac.getNumerator() > 0)
-            {
                 return 1;
-            }
             if (difference.getNumerator() > 0)
-            {
                 return -1;
-            }
             else if (difference.getNumerator() < 0)
-            {
                 return 1;
-            }
             return 0;
         }
     }
