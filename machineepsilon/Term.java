@@ -29,6 +29,70 @@ public class Term implements Comparable<Term>
         this.exponent = new Fraction(exponent);
     }
 
+    public Term(String term)
+    {
+        int coefficientStartIndex = -1;
+        int coefficientEndIndex = -1;
+        int exponentStartIndex = -1;
+        int exponentEndIndex = -1;
+
+        if (term.equals("x"))
+        {
+            this.coefficient = new Fraction(0);
+            this.exponent = new Fraction(0);
+            return;
+        }
+        if (term.indexOf('^') == -1)
+        {
+            this.exponent = new Fraction(1);
+            exponentStartIndex = -2;
+            exponentEndIndex = -2;
+        }
+        if (term.indexOf('x') == -1)
+        {
+            this.coefficient = new Fraction(term);
+            this.exponent = new Fraction(0);
+            return;
+        }
+
+        for (int i = 0; i < term.length(); i++)
+        {
+            if (coefficientStartIndex == -1)
+            {
+                if (term.charAt(i) == '-')
+                    coefficientStartIndex = i;
+                else if (Character.isDigit(term.charAt(i)))
+                    coefficientStartIndex = i;
+            }
+            else if (coefficientEndIndex == -1)
+            {
+                if (term.charAt(i) == ')' || term.charAt(i) == 'x')
+                    coefficientEndIndex = i;
+            } 
+            else if (exponentStartIndex == -1)
+            {
+                if (term.charAt(i) == '-')
+                    exponentStartIndex = i;
+                else if (Character.isDigit(term.charAt(i)))
+                    exponentStartIndex = i;
+            }
+            else if (exponentEndIndex == -1)
+            {
+                if (term.charAt(i) == ')')
+                    exponentEndIndex = i;
+            }
+        }
+
+        if (exponentEndIndex == -1)
+            exponentEndIndex = term.length();
+
+        if (coefficientStartIndex != -2)
+            this.coefficient = new Fraction(term.substring(coefficientStartIndex,
+                        coefficientEndIndex));
+        if (exponentStartIndex != -2)
+            this.exponent = new Fraction(term.substring(exponentStartIndex, exponentEndIndex));
+    }
+
     public Fraction getCoefficient()
     {
         return this.coefficient;
@@ -43,36 +107,29 @@ public class Term implements Comparable<Term>
     {
         String coefficient = this.coefficient.toString();
         String exponent = this.exponent.toString();
+
         if (coefficient.equals("0"))
-        {
             return "";
-        }
         else if (exponent.equals("0"))
-        {
             return coefficient;
-        }
         else if (exponent.equals("1"))
         {
             if (coefficient.equals("1"))
-            {
                 return "x";
-            }
-            return coefficient + "x";
+            else if (coefficient.indexOf('/') != -1)
+                return "(" + coefficient + ")x";
+            else
+                return coefficient + "x";
         }
 
         if (coefficient.indexOf('/') != -1)
-        {
             coefficient = "(" + coefficient + ")";
-        }
         if (exponent.indexOf('/') != -1 || exponent.indexOf('-') != -1)
-        {
             exponent = "(" + exponent + ")";
-        }
 
         if (coefficient.equals("1"))
-        {
             return "x^" + exponent;
-        }
+
         return coefficient + "x^" + exponent;
     }
 
@@ -86,23 +143,15 @@ public class Term implements Comparable<Term>
     {
         int exponentCompare = this.exponent.compareTo(term.getExponent());
         if (exponentCompare < 0)
-        {
             return -1;
-        }
         else if (exponentCompare > 0)
-        {
             return 1;
-        }
 
         int coefficientCompare = this.coefficient.compareTo(term.getCoefficient());
         if (coefficientCompare < 0)
-        {
             return -1;
-        }
         else if (coefficientCompare > 0)
-        {
             return 1;
-        }
 
         return 0;
     }
@@ -134,7 +183,5 @@ public class Term implements Comparable<Term>
     }
     public static void main(String args[])
     {
-        Term t = new Term(new Fraction(-2,3), new Fraction(-4));
-        System.out.println(t);
     }
 }
