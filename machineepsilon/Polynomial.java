@@ -6,6 +6,32 @@ public class Polynomial
 {
     private ArrayList<Term> terms = new ArrayList<>();
 
+    public Polynomial()
+    {
+    }
+
+    public Polynomial(String polynomial)
+    {
+        polynomial = polynomial.replace(" ", "");
+        ArrayList<String> terms = new ArrayList<>();
+        int startIndex = 0;
+
+        if (polynomial.charAt(0) != '-')
+            polynomial = "+" + polynomial;
+
+        for (int i = 1; i < polynomial.length(); i++)
+        {
+            if (polynomial.charAt(i) == '+' || polynomial.charAt(i) == '-')
+            {
+                terms.add(polynomial.substring(startIndex, i));
+                startIndex = i;
+            }
+        }
+        terms.add(polynomial.substring(startIndex, polynomial.length()));
+
+        for (int i=0; i < terms.size(); i++)
+            System.out.println(terms.get(i));
+    }
     public void add(Term term)
     {
         terms.add(term);
@@ -19,21 +45,11 @@ public class Polynomial
     public void print()
     {
         for (int i=0; i < terms.size(); i++)
-        {
             System.out.println(terms.get(i));
-        }
     }
 
     public static void main(String args[])
     {
-        Polynomial p = new Polynomial();
-        Term t1 = new Term(2, 3);
-        Term t2 = new Term(3, 1);
-        Term t3 = new Term(1, 2);
-        p.add(t1);
-        p.add(t2);
-        p.add(t3);
-        p.sort();
-        p.print();
+        Polynomial p = new Polynomial("");
     }
 }
