@@ -16,12 +16,14 @@ public class Polynomial
         ArrayList<String> terms = new ArrayList<>();
         int startIndex = 0;
 
-        if (polynomial.charAt(0) != '-')
-            polynomial = "+" + polynomial;
-
         for (int i = 1; i < polynomial.length(); i++)
         {
-            if (polynomial.charAt(i) == '+' || polynomial.charAt(i) == '-')
+            if (polynomial.charAt(i) == '+')
+            {
+                terms.add(polynomial.substring(startIndex, i));
+                startIndex = i+1;
+            }
+            else if (polynomial.charAt(i) == '-')
             {
                 terms.add(polynomial.substring(startIndex, i));
                 startIndex = i;
@@ -50,6 +52,5 @@ public class Polynomial
 
     public static void main(String args[])
     {
-        Polynomial p = new Polynomial("");
     }
 }
