@@ -43,11 +43,23 @@ public class Polynomial
             }
         }
         terms.add(new Term(polynomial.substring(startIndex, polynomial.length())));
+        this.sort();
     }
 
-    public void add(Term term)
+    public int size()
+    {
+        return this.terms.size();
+    }
+
+    public Term get(int i)
+    {
+        return this.terms.get(i);
+    }
+
+    public void addTerm(Term term)
     {
         terms.add(term);
+        this.sort();
     }
 
     public void sort()
@@ -59,6 +71,9 @@ public class Polynomial
     {
         String polynomial = terms.get(0).toString();
         String term;
+
+        if (polynomial.equals(""))
+            return "";
 
         if (polynomial.charAt(0) == '+')
             polynomial = polynomial.substring(1);
@@ -75,9 +90,50 @@ public class Polynomial
         return polynomial;
     }
 
+    public void simplify()
+    {
+        for (int i = 0; i < terms.size()-1; i++)
+        {
+            Term current = terms.get(i);
+            Term next = terms.get(i+1);
+            if (current.getExponent().compareTo(next.getExponent()) == 0)
+            {
+                Term sum = Term.add(current, next);
+                this.addTerm(sum);
+                terms.remove(current);
+                terms.remove(next);
+                this.sort();
+                i--;
+            }
+        }
+    }
+
+    public static Polynomial add(Polynomial p1, Polynomial p2)
+    {
+        Polynomial sum = p1;
+        for (int i = 0; i < p2.size(); i++)
+            sum.addTerm(p2.get(i));
+        sum.sort();
+        return sum;
+    } 
+
+
+    /*public static Polynomial subtract(Polynomial p1, Polynomial p2)
+    {
+    } 
+
+    public static Polynomial multiply(Polynomial p1, Polynomial p2)
+    {
+    } 
+
+    public static Polynomial divide(Polynomial p1, Polynomial p2)
+    {
+    }*/
+
     public static void main(String args[])
     {
-        Polynomial p = new Polynomial("");
-        System.out.println(p);
+        Polynomial p1 = new Polynomial("");
+        p1.simplify();
+        System.out.println(p1);
     }
 }
