@@ -14,18 +14,32 @@ public class Polynomial
     {
         polynomial = polynomial.replace(" ", "");
         int startIndex = 0;
+        boolean skipNext = false;
+
+        if (polynomial.charAt(0) != '-' && polynomial.charAt(0) != '+')
+            polynomial = "+" + polynomial;
 
         for (int i = 1; i < polynomial.length(); i++)
         {
+            if (skipNext)
+            {
+                skipNext = false;
+                continue;
+            }
+
             if (polynomial.charAt(i) == '+')
             {
                 terms.add(new Term(polynomial.substring(startIndex, i)));
-                startIndex = i+1;
+                startIndex = i;
             }
             else if (polynomial.charAt(i) == '-')
             {
                 terms.add(new Term(polynomial.substring(startIndex, i)));
                 startIndex = i;
+            }
+            else if (polynomial.charAt(i) == '(')
+            {
+                skipNext = true;
             }
         }
         terms.add(new Term(polynomial.substring(startIndex, polynomial.length())));
@@ -46,15 +60,16 @@ public class Polynomial
         String polynomial = terms.get(0).toString();
         String term;
 
+        if (polynomial.charAt(0) == '+')
+            polynomial = polynomial.substring(1);
+
         for (int i=1; i < terms.size(); i++)
         {
             term = terms.get(i).toString();
-            if (term.equals(""))
-                continue;
-            if (term.charAt(0) == '-')
-                polynomial += " - " + term.substring(1);
+            if (term.charAt(0) == '+')
+                polynomial += term;
             else
-                polynomial += " + " + term;
+                polynomial += term;
         }
 
         return polynomial;
@@ -62,7 +77,7 @@ public class Polynomial
 
     public static void main(String args[])
     {
-        Polynomial p = new Polynomial("-x");
+        Polynomial p = new Polynomial("");
         System.out.println(p);
     }
 }
