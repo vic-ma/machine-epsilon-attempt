@@ -31,16 +31,19 @@ public class Term implements Comparable<Term>
 
     public Term(String term)
     {
+        boolean positiveCoefficient = (term.charAt(0) == '+');
         String coefficient = "";
         String exponent = "1";
 
-        if (term.charAt(0) == '(') // If coefficient is a Fraction
+        if (term.charAt(1) == '(') // If coefficient is a Fraction
         {
-            coefficient = term.substring(1, term.indexOf(")"));
+            coefficient = term.substring(2, term.indexOf(")"));
         }
-        else if (term.indexOf('x') != -1) // If coefficient is an integer ("" = 1, "-" = -1)
+        else if (term.indexOf('x') != -1) // If coefficient is an integer
         {
-            coefficient = term.substring(0, term.indexOf("x"));
+            coefficient = term.substring(1, term.indexOf("x"));
+            if (coefficient.equals(""))
+                coefficient = "1";
         }
         else // If term is a constant
         {
@@ -57,10 +60,8 @@ public class Term implements Comparable<Term>
                 exponent = term.substring(term.indexOf('^')+1);
         }
 
-        if (coefficient.equals(""))
-            coefficient = "1";
-        else if (coefficient.equals("-"))
-            coefficient = "-1";
+        if (!positiveCoefficient)
+            coefficient = "-" + coefficient;
 
         this.coefficient = new Fraction(coefficient);
         this.exponent = new Fraction(exponent);
@@ -159,5 +160,17 @@ public class Term implements Comparable<Term>
 
     public static void main(String args[])
     {
+        Term t1 = new Term("+x");
+        System.out.println(t1);
+        Term t2 = new Term("-x");
+        System.out.println(t2);
+        Term t3 = new Term("+43x");
+        System.out.println(t3);
+        Term t4 = new Term("-32x");
+        System.out.println(t4);
+        Term t5 = new Term("+(23/3)x");
+        System.out.println(t5);
+        Term t6 = new Term("-(43/2)x");
+        System.out.println(t6);
     }
 }
