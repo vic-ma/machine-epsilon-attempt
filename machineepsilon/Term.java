@@ -45,7 +45,7 @@ public class Term implements Comparable<Term>
             if (coefficient.equals(""))
                 coefficient = "1";
         }
-        else // If term is a constant
+        else // If Term is a constant
         {
             this.coefficient = new Fraction(term);
             this.exponent = new Fraction(0);
@@ -79,32 +79,60 @@ public class Term implements Comparable<Term>
 
     public String toString()
     {
-        String coefficient = this.coefficient.toString();
         String exponent = this.exponent.toString();
+        String coefficient = this.coefficient.toString();
+        boolean positiveCoefficient = (coefficient.charAt(0) != '-');
 
-        if (coefficient.equals("0"))
-            return "";
-        else if (exponent.equals("0"))
-            return coefficient;
-        else if (exponent.equals("1"))
+        if (exponent.equals("0")) // If Term is a constant
         {
-            if (coefficient.equals("1"))
-                return "x";
-            else if (coefficient.equals("-1"))
-                return "-x";
-            else if (coefficient.indexOf('/') != -1)
-                return "(" + coefficient + ")x";
-            else
-                return coefficient + "x";
+            if (positiveCoefficient)
+                return "+" + coefficient;
+            return coefficient;
         }
 
-        if (coefficient.indexOf('/') != -1)
-            coefficient = "(" + coefficient + ")";
-        if (exponent.indexOf('/') != -1 || exponent.indexOf('-') != -1)
+        else if (exponent.equals("1")) // If Term is linear
+        {
+            if (coefficient.equals("1"))
+                return "+x";
+            else if (coefficient.equals("-1"))
+                return "-x";
+            else if (coefficient.indexOf('/') != -1) // Coefficient is a Fraction
+            {
+                if (positiveCoefficient)
+                    return "+(" + coefficient + ")x";
+                return "-(" + coefficient.substring(1) + ")x";
+            }
+            else // Coefficient is an integer
+            {
+                if (positiveCoefficient)
+                    return "+" + coefficient + "x";
+                return "-" + coefficient.substring(1) + "x";
+            }
+        }
+
+        // Term is neither constant nor linear
+
+        if (coefficient.indexOf('/') != -1) // If coefficient is a Fraction
+        {
+            if (positiveCoefficient)
+                coefficient = "+(" + coefficient + ")";
+            else
+                coefficient = "-(" + coefficient.substring(1) + ")";
+        }
+        else // If coefficient is an Integer
+        {
+            if (positiveCoefficient)
+                coefficient = "+" + coefficient;
+            else
+                coefficient = "-" + coefficient.substring(1);
+        }
+        if (exponent.indexOf('/') != -1 || exponent.indexOf('-') != -1) // if exponent needs "()"
             exponent = "(" + exponent + ")";
 
-        if (coefficient.equals("1"))
-            return "x^" + exponent;
+        if (coefficient.equals("+1"))
+            return "+x^" + exponent;
+        else if (coefficient.equals("-1"))
+            return "-x^" + exponent;
 
         return coefficient + "x^" + exponent;
     }
