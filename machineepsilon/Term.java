@@ -34,23 +34,24 @@ public class Term implements Comparable<Term>
         String coefficient = "";
         String exponent = "1";
 
-        if (term.charAt(0) == '(')
+        if (term.charAt(0) == '(') // If coefficient is a Fraction
         {
             coefficient = term.substring(1, term.indexOf(")"));
         }
-        else if (term.indexOf('x') != -1)
+        else if (term.indexOf('x') != -1) // If coefficient is an integer ("" = 1, "-" = -1)
         {
             coefficient = term.substring(0, term.indexOf("x"));
         }
-        else
+        else // If term is a constant
         {
-            coefficient = term;
-            exponent = "0";
+            this.coefficient = new Fraction(term);
+            this.exponent = new Fraction(0);
+            return;
         }
 
-        if (term.indexOf('^') != -1)
+        if (term.indexOf('^') != -1) // If exponent is not 1 or 0
         {
-            if (term.charAt(term.indexOf('^')+1) == '(')
+            if (term.charAt(term.indexOf('^')+1) == '(') // If exponent is a Fraction
                 exponent = term.substring(term.lastIndexOf('(')+1, term.length()-1);
             else
                 exponent = term.substring(term.indexOf('^')+1);
