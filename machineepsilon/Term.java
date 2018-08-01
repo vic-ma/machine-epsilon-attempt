@@ -38,6 +38,14 @@ public class Term implements Comparable<Term>
         if (term.charAt(1) == '(') // If coefficient is a Fraction
         {
             coefficient = term.substring(2, term.indexOf(")"));
+            if (term.indexOf('x') == -1) // If Term is a Fraction constant
+            {
+                if (!positiveCoefficient)
+                    coefficient = "-" + coefficient;
+                this.coefficient = new Fraction(coefficient);
+                this.exponent = new Fraction(0);
+                return;
+            }
         }
         else if (term.indexOf('x') != -1) // If coefficient is an integer
         {
@@ -45,7 +53,7 @@ public class Term implements Comparable<Term>
             if (coefficient.equals(""))
                 coefficient = "1";
         }
-        else // If Term is a constant
+        else // If Term is an integer constant
         {
             this.coefficient = new Fraction(term);
             this.exponent = new Fraction(0);
@@ -188,8 +196,9 @@ public class Term implements Comparable<Term>
 
     public static void main(String args[])
     {
-        Term t1 = new Term("+x");
+        Term t1 = new Term("-(1/2)");
         System.out.println(t1);
+        /*
         Term t2 = new Term("-x");
         System.out.println(t2);
         Term t3 = new Term("+43x");
@@ -200,5 +209,6 @@ public class Term implements Comparable<Term>
         System.out.println(t5);
         Term t6 = new Term("-(43/2)x");
         System.out.println(t6);
+        */
     }
 }
