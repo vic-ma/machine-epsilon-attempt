@@ -91,6 +91,9 @@ public class Term implements Comparable<Term>
         String coefficient = this.coefficient.toString();
         boolean positiveCoefficient = (coefficient.charAt(0) != '-');
 
+        if (coefficient.equals("0")) // If Term is 0
+            return "";
+
         if (exponent.equals("0")) // If Term is a constant
         {
             if (positiveCoefficient)
