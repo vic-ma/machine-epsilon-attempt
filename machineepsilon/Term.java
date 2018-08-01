@@ -31,66 +31,38 @@ public class Term implements Comparable<Term>
 
     public Term(String term)
     {
-        int coefficientStartIndex = -1;
-        int coefficientEndIndex = -1;
-        int exponentStartIndex = -1;
-        int exponentEndIndex = -1;
+        String coefficient = "";
+        String exponent = "1";
 
-        if (term.equals("x"))
+        if (term.charAt(0) == '(')
         {
-            this.coefficient = new Fraction(0);
-            this.exponent = new Fraction(0);
-            return;
+            coefficient = term.substring(1, term.indexOf(")"));
         }
-        if (term.indexOf('^') == -1)
+        else if (term.indexOf('x') != -1)
         {
-            this.exponent = new Fraction(1);
-            exponentStartIndex = -2;
-            exponentEndIndex = -2;
+            coefficient = term.substring(0, term.indexOf("x"));
         }
-        if (term.indexOf('x') == -1)
+        else
         {
-            this.coefficient = new Fraction(term);
-            this.exponent = new Fraction(0);
-            return;
+            coefficient = term;
+            exponent = "0";
         }
 
-        for (int i = 0; i < term.length(); i++)
+        if (term.indexOf('^') != -1)
         {
-            if (coefficientStartIndex == -1)
-            {
-                if (term.charAt(i) == '-')
-                    coefficientStartIndex = i;
-                else if (Character.isDigit(term.charAt(i)))
-                    coefficientStartIndex = i;
-            }
-            else if (coefficientEndIndex == -1)
-            {
-                if (term.charAt(i) == ')' || term.charAt(i) == 'x')
-                    coefficientEndIndex = i;
-            } 
-            else if (exponentStartIndex == -1)
-            {
-                if (term.charAt(i) == '-')
-                    exponentStartIndex = i;
-                else if (Character.isDigit(term.charAt(i)))
-                    exponentStartIndex = i;
-            }
-            else if (exponentEndIndex == -1)
-            {
-                if (term.charAt(i) == ')')
-                    exponentEndIndex = i;
-            }
+            if (term.charAt(term.indexOf('^')+1) == '(')
+                exponent = term.substring(term.lastIndexOf('(')+1, term.length()-1);
+            else
+                exponent = term.substring(term.indexOf('^')+1);
         }
 
-        if (exponentEndIndex == -1)
-            exponentEndIndex = term.length();
+        if (coefficient.equals(""))
+            coefficient = "1";
+        else if (coefficient.equals("-"))
+            coefficient = "-1";
 
-        if (coefficientStartIndex != -2)
-            this.coefficient = new Fraction(term.substring(coefficientStartIndex,
-                        coefficientEndIndex));
-        if (exponentStartIndex != -2)
-            this.exponent = new Fraction(term.substring(exponentStartIndex, exponentEndIndex));
+        this.coefficient = new Fraction(coefficient);
+        this.exponent = new Fraction(exponent);
     }
 
     public Fraction getCoefficient()
@@ -116,6 +88,8 @@ public class Term implements Comparable<Term>
         {
             if (coefficient.equals("1"))
                 return "x";
+            else if (coefficient.equals("-1"))
+                return "-x";
             else if (coefficient.indexOf('/') != -1)
                 return "(" + coefficient + ")x";
             else
@@ -181,6 +155,7 @@ public class Term implements Comparable<Term>
         Fraction exponent = Fraction.subtract(t1.getExponent(), t2.getExponent());
         return new Term(coefficient, exponent);
     }
+
     public static void main(String args[])
     {
     }
