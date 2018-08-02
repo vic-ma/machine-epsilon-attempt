@@ -8,25 +8,37 @@ public class Term implements Comparable<Term>
     public Term(Fraction coefficient, Fraction exponent)
     {
         this.coefficient = coefficient;
-        this.exponent = exponent;
+        if (coefficient.getNumerator() == 0)
+            this.exponent = new Fraction(0);
+        else
+            this.exponent = exponent;
     }
 
     public Term(Fraction coefficient, int exponent)
     {
         this.coefficient = coefficient;
-        this.exponent = new Fraction(exponent);
+        if (coefficient.getNumerator() == 0)
+            this.exponent = new Fraction(0);
+        else
+            this.exponent = new Fraction(exponent);
     }
 
     public Term(int coefficient, Fraction exponent)
     {
         this.coefficient = new Fraction(coefficient);
-        this.exponent = exponent;
+        if (coefficient == 0)
+            this.exponent = new Fraction(0);
+        else
+            this.exponent = exponent;
     }
 
     public Term(int coefficient, int exponent)
     {
         this.coefficient = new Fraction(coefficient);
-        this.exponent = new Fraction(exponent);
+        if (coefficient == 0)
+            this.exponent = new Fraction(0);
+        else
+            this.exponent = new Fraction(exponent);
     }
 
     public Term(String term)
@@ -199,7 +211,7 @@ public class Term implements Comparable<Term>
 
     public static void main(String args[])
     {
-        Term t1 = new Term("-(1/2)");
+        Term t1 = new Term(""); // TODO: make it so that "" exp is 0
         System.out.println(t1);
         /*
         Term t2 = new Term("-x");
